@@ -13,7 +13,12 @@ import { Headercomponent } from './header/header.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { PostlistComponent } from './posts/post-list/post-list.component';
+import { PostListComponent } from './posts/post-list/post-list.component';
+import {MatCardModule} from '@angular/material/card';
+
+
+
+
 
 
 @NgModule({
@@ -21,7 +26,7 @@ import { PostlistComponent } from './posts/post-list/post-list.component';
     AppComponent, 
     PostCreateComponent,
     Headercomponent,
-    PostlistComponent
+    PostListComponent
 
   ],
   imports: [
@@ -34,7 +39,8 @@ import { PostlistComponent } from './posts/post-list/post-list.component';
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatCardModule
     
   ],
   providers: [],

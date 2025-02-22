@@ -1,11 +1,14 @@
-    <mat-form-field class="example-full-width" >
-      <mat-label>Favorite food</mat-label>
-      <input matInput placeholder="Ex. Pizza" value="Sushi" [(ngModel)]="enteredValue" >
-    </mat-form-field>
+<mat-card>
+     <form (submit)="onAddPost(postForm)" #postForm="ngForm">
+      <mat-form-field>
+            <input matInput type="text" name="title" ngModel required #title="ngModel" placeholder="title">
+            <mat-error *ngIf="title.invalid">enter a title</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+            <textarea rows="6" matInput name="content" ngModel="" required #content="ngModel" placeholder="Content"></textarea>
+            <mat-error *ngIf="content.invalid">enter a content</mat-error>
+      </mat-form-field>
 
-    <section>
-          <button (click)="onAddPost()" mat-raised-button >print</button>
-
-      <mat-divider></mat-divider>
-<hr>
-      {{newPost}}
+      <button mat-raised-button color="primary" type="submit">Save</button>
+     </form>
+</mat-card>
