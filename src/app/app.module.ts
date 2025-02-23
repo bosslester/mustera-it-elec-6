@@ -15,10 +15,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {PostListComponent} from './posts/post-list/post-list.component';
 import {MatCardModule} from '@angular/material/card';
-
-
-
-
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -40,7 +37,8 @@ import {MatCardModule} from '@angular/material/card';
     MatIconModule,
     MatToolbarModule,
     MatExpansionModule,
-    MatCardModule
+    MatCardModule,
+    HttpClientModule
     
   ],
   providers: [],
