@@ -1,15 +1,13 @@
-const http = require('http');
-const app = require('./backend/app');
-const { error, debug } = require('console');
+const http = require("http");
+const app = require("./backend/app");
 
 const normalizePort = (val) => {
-    var port = parseInt(val, 10);
-
+    const port = parseInt(val, 10);
     if (isNaN(port)) {
-        return val; // Named pipe
+        return val; 
     }
     if (port >= 0) {
-        return port; // Port number
+        return port; 
     }
     return false;
 };
@@ -20,8 +18,7 @@ const onError = (error) => {
     }
 
     const addr = server.address();
-    const port = app.get("port");
-    const bind = typeof addr === "string" ? "pipe " + addr : "port " + port;
+    const bind = addr ? (typeof addr === "string" ? "pipe " + addr : "port " + addr.port) : "unknown";
 
     switch (error.code) {
         case "EACCES":
@@ -39,12 +36,11 @@ const onError = (error) => {
 
 const onListening = () => {
     const addr = server.address();
-    const port = app.get("port");
-    const bind = typeof addr === "string" ? "pipe " + addr : "port " + port;
+    const bind = addr ? (typeof addr === "string" ? "pipe " + addr : "port " + addr.port) : "unknown";
     console.log("Listening on " + bind);
 };
 
-const port = normalizePort(process.env.PORT || 3000);
+const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
 const server = http.createServer(app);
