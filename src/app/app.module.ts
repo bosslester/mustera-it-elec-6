@@ -16,6 +16,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {PostListComponent} from './posts/post-list/post-list.component';
 import {MatCardModule} from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 @NgModule({
@@ -38,7 +40,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatToolbarModule,
     MatExpansionModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule,
+    MatProgressSpinnerModule
     
   ],
   providers: [],
