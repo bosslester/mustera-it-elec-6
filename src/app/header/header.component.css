@@ -1,12 +1,44 @@
-ul{
+mat-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+  
+  .spacer {
+    flex: 1;
+  }
+  
+  ul {
     list-style: none;
-    padding: 10;
-    margin: 10;
-}
-a{
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  
+  ul li {
+    margin-left: 16px;
+  }
+  
+  a {
     text-decoration: none;
     color: white;
-}
-.spacer{
-    flex: 1 1 auto;
-}
+    font-weight: bold;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  a.mat-button {
+    background-color: white;
+    color: #1976d2;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  a.mat-button:hover {
+    background-color: #1565c0;
+    color: white;
+  }

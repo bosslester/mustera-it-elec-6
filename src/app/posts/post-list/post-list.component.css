@@ -1,52 +1,94 @@
-:host {
-    display: block;
-    margin-top: 1rem;
-  }
-  
-  .info-text {
-    text-align: center;
-  }
-  
-  mat-accordion {
-    width: 80%;
-    max-width: 800px;
-    margin: 1rem auto;
-  }
-  
-  mat-spinner {
-    margin: 1rem auto;
-  }
-  
+post-container {
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+/* Centered Spinner */
+mat-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+/* Accordion Panel */
+mat-expansion-panel {
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+mat-expansion-panel:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Panel Header */
+mat-expansion-panel-header {
+  font-size: 16px;
+}
+
+/* Post Image */
+.post-image {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.post-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Post Content */
+.post-content {
+  font-size: 14px;
+  color: #333;
+  padding: 10px 0;
+  line-height: 1.5;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.action-buttons a,
+.action-buttons button {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* No Posts Message */
+p {
+  text-align: center;
+  font-size: 14px;
+  color: #777;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .post-container {
-    width: 80%;
-    max-width: 800px;
-    margin: 1rem auto;
-  }
-  
-  .post-image {
-    width: 100%;
-    margin: 1rem 0;
-  }
-  
-  .post-image img {
-    max-width: 100%;
-    max-height: 300px;
-    object-fit: contain;
-  }
-  
-  .post-content {
-    margin: 1rem 0;
-  }
-  
-  mat-expansion-panel {
-    margin-bottom: 1rem;
-  }
-  
-  mat-action-row {
-    justify-content: flex-end;
-    gap: 1rem;
+    padding: 15px;
   }
 
-  mat-paginator {
-    margin-top: 1rem;
+  .action-buttons {
+    flex-direction: column;
+    gap: 10px;
   }
+
+  .action-buttons a,
+  .action-buttons button {
+    width: 100%;
+  }
+}
+mat-paginator{  
+  margin-top: 1rem;  
+}  
