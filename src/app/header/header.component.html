@@ -1,11 +1,30 @@
-<mat-toolbar color="primary">   
-  <span>  
-    <a routerLink="/">Message</a>  
-  </span>  
-  <span class="spacer"></span>  
-  <ul>  
-    <li>  
-      <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Post</a>   
-    </li>
-  </ul>  
-</mat-toolbar>  
+<mat-toolbar color="primary">
+  <!-- Show "Posted" only if logged in and not on login/signup -->
+  <span *ngIf="isAuthenticatedAndNotAuthPage">
+    <a routerLink="/" style="color: white; text-decoration: none;">Posted</a>
+  </span>
+
+  <span class="spacer"></span>
+
+  <nav>
+    <ul class="nav-list">
+      <!-- Show "New Post" only if logged in and not on login/signup -->
+      <li *ngIf="isAuthenticatedAndNotAuthPage">
+        <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Post</a>
+      </li>
+
+      <!-- Show login/signup buttons only if not logged in and on login/signup page -->
+      <li *ngIf="showAuthLinks">
+        <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
+      </li>
+      <li *ngIf="showAuthLinks">
+        <a mat-button routerLink="/signup" routerLinkActive="mat-accent">Signup</a>
+      </li>
+
+      <!-- Show logout only if logged in and not on login/signup -->
+      <li *ngIf="isAuthenticatedAndNotAuthPage">
+        <button mat-button (click)="onLogout()">Logout</button>
+      </li>
+    </ul>
+  </nav>
+</mat-toolbar>

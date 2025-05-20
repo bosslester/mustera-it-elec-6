@@ -1,0 +1,27 @@
+/* Center the signup form both vertically and horizontally */
+.Signup-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+}
+
+/* Card styling */
+mat-card {
+  width: 400px;
+  padding: 20px;
+}
+
+/* Input field spacing */
+.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Spinner centered */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
