@@ -1,44 +1,49 @@
 mat-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-  }
-  
-  .spacer {
-    flex: 1;
-  }
-  
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-  }
-  
-  ul li {
-    margin-left: 16px;
-  }
-  
-  a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
-  a.mat-button {
-    background-color: white;
-    color: #1976d2;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  a.mat-button:hover {
-    background-color: #1565c0;
-    color: white;
-  }
+  padding: 0 5%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  height: 64px;
+  background: linear-gradient(135deg, #71a779, #6ba268);  /* Gradient background */
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s;
+  padding: 6px 16px;
+  border-radius: 20px;
+}
+
+a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffd740;
+}
+
+.mat-accent {
+  color: #ffd740 !important;
+}
+
+li {
+  margin-left: 1rem;
+}
+
+/* Optional: Add hover effect for non-active links */
+a:hover:not(.mat-accent) {
+  opacity: 0.8;
+}

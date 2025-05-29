@@ -1,41 +1,113 @@
+:host {
+  display: block;
+  margin-top: 0;
+}
+
 mat-card {
-  max-width: 500px;
-  margin: 20px auto;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  margin: 1rem auto;
+  padding: 2rem;
+  max-width: 800px;
+  background: white;
 }
 
 mat-form-field {
   width: 100%;
-  margin-bottom: 15px;
-}
-
-textarea {
-  resize: vertical;
+  margin-bottom: 0.5rem;
 }
 
 button {
-  width: 100%;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px;
+  margin: 0.5rem;
 }
 
-mat-error {
-  font-size: 12px;
-  color: red;
-}
 input[type="file"] {
   visibility: hidden;
 }
 
-.image-preview{
-  height: 5rem;
+.image-preview {
   margin: 1rem 0;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f8f9fa;
 }
 
-.image-preview img{
-  height: 100;
+.image-preview img {
+  max-height: 300px;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.file-input-container {
+  margin: 1rem 0;
+  text-align: center;
+  background-color: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  border: 2px dashed #e0e0e0;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  position: relative;
+  overflow: hidden;
+}
+
+.file-input-container:hover {
+  border-color: #673ab7;
+  background-color: #f3f0ff;
+  cursor: pointer;
+}
+
+.image-preview-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-preview-container img {
+  max-height: 200px;
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+button[type="button"] {
+  background-color: white;
+  padding: 0.75rem 2rem;
+  border: 1px solid #673ab7;
+  color: #673ab7;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+button[type="button"]:hover {
+  background-color: #673ab7;
+  color: white;
+}
+
+mat-icon {
+  margin-right: 4px;
+}
+
+mat-spinner {
+  margin: 2rem auto;
+}
+
+button[type="submit"] {
+  width: 180px;
+  margin: 1rem auto;
+  display: block;
+  height: 45px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #673ab7, #9c27b0);
+  color: white;
 }

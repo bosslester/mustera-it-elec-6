@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,45 +8,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  loginForm: FormGroup;
-  isLoading: boolean = false;
-  errorMessage: string = '';
+  isLoading = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
-  ) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
-  }
-
-  onLogin(): void {
-    if (this.loginForm.invalid) return;
-
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    const { email, password } = this.loginForm.value;
-
-    this.authService.loginUser(email, password).subscribe({
-      next: (response: { token: string }) => {
+  constructor(public authService: AuthService) {
+    // Subscribe to auth status changes to handle loading state
+    this.authService.getAuthStatusListener().subscribe(
+      isAuthenticated => {
         this.isLoading = false;
-        console.log('Login successful:', response);
-
-        // Store token
-        localStorage.setItem('token', response.token);
-
-        // ✅ Redirect to the post creation page (PostCreateComponent)
-        this.router.navigate(['/create']);
-      },
-      error: (error: any) => {
-        this.isLoading = false;
-        this.errorMessage = error?.error?.message || 'Login failed';
-        console.error('Login error:', error);
       }
-    });
+    );
   }
-}
+
+  onLogin(form: NgForm) {
+    if (form.invalid) {
+      return;
+    }
+    this.isLoading = true;
+    this.authService.login(form.value.email, form.value.password);
+  }
+} 
