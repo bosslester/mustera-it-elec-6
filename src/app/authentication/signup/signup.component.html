@@ -1,32 +1,42 @@
-<div class="Signup-container" *ngIf="!isLoading; else loading">
-    <mat-card>
-      <mat-card-title>Sign Up</mat-card-title>
-      <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" />
-          <mat-error *ngIf="signupForm.get('email')?.hasError('required')">Email is required</mat-error>
-          <mat-error *ngIf="signupForm.get('email')?.hasError('email')">Enter a valid email</mat-error>
-        </mat-form-field>
+<mat-card class="signup-card">
+  <mat-card-header>
+    <mat-card-title>Signup</mat-card-title>
+  </mat-card-header>
   
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" />
-          <mat-error *ngIf="signupForm.get('password')?.hasError('required')">Password is required</mat-error>
-          <mat-error *ngIf="signupForm.get('password')?.hasError('minlength')">
-            Password must be at least 6 characters
-          </mat-error>
-        </mat-form-field>
-  
-        <button mat-raised-button color="primary" type="submit">Sign Up</button>
-      </form>
-  
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-    </mat-card>
-  </div>
-  
-  <ng-template #loading>
-    <div class="spinner-container">
-      <mat-spinner></mat-spinner>
-    </div>
-  </ng-template>
+  <mat-card-content>
+    <app-spinner-overlay *ngIf="isLoading"></app-spinner-overlay>
+    <form (submit)="onSignup(signupForm)" #signupForm="ngForm" *ngIf="!isLoading">
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          name="email"
+          ngModel
+          type="email"
+          #emailInput="ngModel"
+          required
+          email>
+        <mat-error *ngIf="emailInput.invalid">Please enter a valid email</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          type="password"
+          name="password"
+          matInput
+          ngModel
+          #passwordInput="ngModel"
+          required>
+        <mat-error *ngIf="passwordInput.invalid">Please enter a valid password</mat-error>
+      </mat-form-field>
+
+      <div class="button-container">
+        <button
+          mat-raised-button
+          color="accent"
+          type="submit">Create Account</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card> 

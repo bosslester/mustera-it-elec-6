@@ -1,27 +1,42 @@
-/* Center the signup form both vertically and horizontally */
-.Signup-container {
-  display: flex;
+.signup-card {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fafafa;
+}
+
+mat-card-header {
+  margin-bottom: 1.5rem;
   justify-content: center;
-  align-items: center;
-  height: 100vh; /* Full viewport height */
 }
 
-/* Card styling */
-mat-card {
-  width: 400px;
-  padding: 20px;
+mat-card-title {
+  font-size: 1.5rem;
+  color: #ff4081; /* Accent color */
 }
 
-/* Input field spacing */
-.full-width {
+mat-form-field {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
 }
 
-/* Spinner centered */
-.spinner-container {
+.button-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  margin-top: 1.5rem;
 }
+
+button {
+  min-width: 120px;
+}
+
+mat-spinner {
+  margin: auto;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+} 

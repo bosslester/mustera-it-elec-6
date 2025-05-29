@@ -1,0 +1,20 @@
+<div class="todo-toolbar">
+  <input
+    [(ngModel)]="newTodo"
+    placeholder="Add task"
+    (keyup.enter)="addTodo()"
+    maxlength="20"
+    title="Press Enter to add"
+  />
+  <button mat-mini-fab color="accent" aria-label="Add task" (click)="addTodo()">
+    <mat-icon>add</mat-icon>
+  </button>
+  <!-- <span class="todo-count">{{ todos.length }} tasks</span>  -->
+</div>
+
+<ul *ngIf="todos.length" class="todo-list-inline">
+  <li *ngFor="let todo of todos">
+    <input type="checkbox" [checked]="todo.completed" (change)="toggleComplete(todo)" />
+    <!-- <span [class.completed]="todo.completed">{{ todo.title }}</span> -->
+  </li>
+</ul>

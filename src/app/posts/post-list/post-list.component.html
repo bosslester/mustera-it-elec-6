@@ -1,43 +1,161 @@
-<mat-card class="post-container">
+<mat-spinner *ngIf="isLoading"></mat-spinner>
 
-    <!-- Spinner when loading -->
-    <mat-spinner *ngIf="Loading"></mat-spinner>
-  
-    <!-- Posts Accordion -->
-    <mat-accordion [multi]="true" *ngIf="posts.length > 0 && !Loading">
-      <mat-expansion-panel *ngFor="let post of posts">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            {{ post.title }}
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-  
-        <!-- Post Image -->
-        <div class="post-image" *ngIf="post.imagePath">
-          <img [src]="post.imagePath" [alt]="post.title" />
+<div class="search-container">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Search posts</mat-label>
+    <input matInput [(ngModel)]="searchQuery" (keyup.enter)="onSearch()" placeholder="Search by title or content">
+    <button mat-icon-button matSuffix (click)="onSearch()">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button *ngIf="searchQuery" mat-icon-button matSuffix (click)="onCancelSearch()" aria-label="Cancel search">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
+<mat-accordion multi="true" *ngIf="posts.length > 0 && !isLoading">
+  <mat-expansion-panel *ngFor="let post of posts">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ post.title }}
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    
+    <div class="post-image" *ngIf="post.imagePath">
+      <img [src]="post.imagePath" [alt]="post.title">
+    </div>
+    
+    <div class="post-content">
+      {{ post.content }}
+    </div>
+    
+    <!-- Post Reactions -->
+    <div class="reactions-container">
+      <!-- Initial Reaction Display (e.g., Like and total count) -->
+      <div class="initial-reaction">
+        <ng-container *ngIf="getTotalReactions(post) > 0">
+          <ng-container *ngIf="post.reactions">
+            <!-- Display multiple emojis for different reaction types -->
+            <span class="emoji-list">
+              <span class="emoji" *ngIf="post.reactions.like > 0">👍</span>
+              <span class="emoji" *ngIf="post.reactions.love > 0">❤️</span>
+              <span class="emoji" *ngIf="post.reactions.laugh > 0">😂</span>
+              <span class="emoji" *ngIf="post.reactions.sad > 0">😢</span>
+            </span>
+            <span class="reaction-count">{{ getTotalReactions(post) }}</span>
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <!-- Button to trigger reactions on hover -->
+      <button mat-button class="react-button">
+        <mat-icon [ngClass]="{'active-reaction': post.userReaction}">{{ post.userReaction ? 
+          post.userReaction === 'like' ? 'thumb_up_alt' : 
+          post.userReaction === 'love' ? 'favorite' : 
+          post.userReaction === 'laugh' ? 'sentiment_very_satisfied' : 
+          post.userReaction === 'sad' ? 'sentiment_very_dissatisfied' : 'thumb_up_alt'
+          : 'thumb_up_alt' 
+        }}</mat-icon>
+        {{ post.userReaction ? (post.userReaction | titlecase) : 'React' }}
+      </button>
+
+      <!-- Hover Reaction Options -->
+      <div class="reaction-options">
+        <button mat-icon-button (click)="onReactToPost(post, 'like')" aria-label="Like">
+          <span class="emoji">👍</span>
+        </button>
+        <button mat-icon-button (click)="onReactToPost(post, 'love')" aria-label="Love">
+          <span class="emoji">❤️</span>
+        </button>
+        <button mat-icon-button (click)="onReactToPost(post, 'laugh')" aria-label="Laugh">
+          <span class="emoji">😂</span>
+        </button>
+        <button mat-icon-button (click)="onReactToPost(post, 'sad')" aria-label="Sad">
+          <span class="emoji">😢</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="comments-section">
+      <h4>Comments</h4>
+      <form class="add-comment-form" (ngSubmit)="onAddComment(post)">
+        <mat-form-field appearance="outline" class="comment-field">
+          <mat-label>Add a comment</mat-label>
+          <input matInput [(ngModel)]="newComments[post.id]" name="comment-{{post.id}}" required>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Add</button>
+      </form>
+      <div class="comment-list">
+        <div class="comment" *ngFor="let comment of post.comments">
+          <div class="comment-text">{{ comment.text }}</div>
+          <div class="comment-meta">
+            <span class="comment-date">{{ comment.createdAt | date:'short' }}</span>
+            <!-- (Optional) Show delete if user is creator -->
+            <button *ngIf="userId === comment.creator" mat-icon-button color="warn" (click)="onDeleteComment(post, comment)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+
+          <!-- Comment Reactions (also with hover effect) -->
+          <div class="reactions-container comment-reactions-container">
+            <!-- Initial Reaction Display for Comments -->
+            <div class="initial-reaction">
+              <ng-container *ngIf="getTotalCommentReactions(comment) > 0">
+                <ng-container *ngIf="comment.reactions">
+                  <!-- Display multiple emojis for different reaction types on comments -->
+                  <span class="emoji-list">
+                    <span class="emoji" *ngIf="comment.reactions.like > 0">👍</span>
+                    <span class="emoji" *ngIf="comment.reactions.love > 0">❤️</span>
+                    <span class="emoji" *ngIf="comment.reactions.laugh > 0">😂</span>
+                    <span class="emoji" *ngIf="comment.reactions.sad > 0">😢</span>
+                  </span>
+                  <span class="reaction-count">{{ getTotalCommentReactions(comment) }}</span>
+                </ng-container>
+              </ng-container>
+            </div>
+
+            <!-- Hover Reaction Options for Comments -->
+            <div class="reaction-options">
+              <button mat-icon-button (click)="onReactToComment(post, comment, 'like')" aria-label="Like">
+                <span class="emoji">👍</span>
+              </button>
+              <button mat-icon-button (click)="onReactToComment(post, comment, 'love')" aria-label="Love">
+                <span class="emoji">❤️</span>
+              </button>
+              <button mat-icon-button (click)="onReactToComment(post, comment, 'laugh')" aria-label="Laugh">
+                <span class="emoji">😂</span>
+              </button>
+              <button mat-icon-button (click)="onReactToComment(post, comment, 'sad')" aria-label="Sad">
+                <span class="emoji">😢</span>
+              </button>
+            </div>
+          </div>
+
         </div>
-  
-        <!-- Post Content -->
-        <p class="post-content">{{ post.content }}</p>
-        <mat-action-row *ngIf= "userIsAuthenticated"></mat-action-row>
-        <!-- Action Buttons -->
-        <mat-action-row class="action-buttons">
-          <a mat-button color="primary" [routerLink]="['/edit', post.id]">Edit</a>
-          <button mat-button color="warn" (click)="onDelete(post.id)">Delete</button>
-        </mat-action-row>
-      </mat-expansion-panel>
-    </mat-accordion>
-  
-    <!-- No Posts Message -->
-    <p *ngIf="posts.length === 0 && !Loading" class="info-text mat-body-1">No posts available</p>
-  
-  </mat-card>
-  
-  <!-- Paginator -->
-  <mat-paginator
-    [length]="totalposts"
-    [pageSize]="postperpage"
-    [pageSizeOptions]="pageSizeOption"
-    (page)="onChangedPage($event)">
-  </mat-paginator>
-  
+      </div>
+    </div>
+
+<mat-action-row *ngIf="userIsAuthenticated && (userId + '') === (post.creator + '')">
+  <a mat-raised-button color="primary" [routerLink]="['/edit', post.id]">
+    <mat-icon>edit</mat-icon>
+  </a>
+  <button mat-raised-button color="warn" (click)="onDelete(post.id)">
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-paginator 
+  *ngIf="posts.length > 0"
+  [length]="totalPosts" 
+  [pageSize]="postsPerPage"
+  [pageSizeOptions]="pageSizeOptions"
+  [pageIndex]="currentPage - 1"
+  (page)="onChangedPage($event)">
+</mat-paginator>
+
+<p class="info-text mat-body-1" *ngIf="posts.length <= 0 && !isLoading">
+  No posts found!
+</p>  

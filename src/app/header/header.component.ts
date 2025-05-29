@@ -1,57 +1,52 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AuthService } from '../authentication/auth.service';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { AuthService } from 'src/app/authentication/auth.service';
+import { ThemeService } from '../services/theme.service';
 
-@Component({
-  selector: 'app-header',
+@Component({  
+  selector: 'app-header',  
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
-})
+})  
 export class HeaderComponent implements OnInit, OnDestroy {
   userIsAuthenticated = false;
-  currentRoute = '';
   private authListenerSubs!: Subscription;
-  private routeSub!: Subscription;
+  isDarkMode = false;
+  private themeSub!: Subscription;
+  isLoading = false;
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private themeService: ThemeService
+  ) {}
 
   ngOnInit() {
     this.userIsAuthenticated = this.authService.getIsAuth();
-
     this.authListenerSubs = this.authService
       .getAuthStatusListener()
       .subscribe(isAuthenticated => {
         this.userIsAuthenticated = isAuthenticated;
       });
 
-    this.routeSub = this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: any) => {
-        this.currentRoute = event.urlAfterRedirects;
-      });
+    this.themeSub = this.themeService.isDarkMode$.subscribe(
+      isDark => this.isDarkMode = isDark
+    );
   }
 
   onLogout() {
+    this.isLoading = true;
     this.authService.logout();
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000); // Show spinner for 1 second
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 
   ngOnDestroy() {
     this.authListenerSubs.unsubscribe();
-    this.routeSub.unsubscribe();
+    this.themeSub.unsubscribe();
   }
-
-  // Utility getters for cleaner template logic
-  get isLoginOrSignupPage(): boolean {
-    return this.currentRoute === '/login' || this.currentRoute === '/signup';
-  }
-
-  get isAuthenticatedAndNotAuthPage(): boolean {
-    return this.userIsAuthenticated && !this.isLoginOrSignupPage;
-  }
-
-  get showAuthLinks(): boolean {
-    return !this.userIsAuthenticated && this.isLoginOrSignupPage;
-  }
-}
+}  

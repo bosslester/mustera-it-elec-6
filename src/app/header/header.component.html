@@ -1,30 +1,11 @@
+<app-spinner-overlay *ngIf="isLoading"></app-spinner-overlay>
 <mat-toolbar color="primary">
-  <!-- Show "Posted" only if logged in and not on login/signup -->
-  <span *ngIf="isAuthenticatedAndNotAuthPage">
-    <a routerLink="/" style="color: white; text-decoration: none;">Posted</a>
+  <span>
+    <a routerLink="/">Posted</a>
   </span>
-
-  <span class="spacer"></span>
-
-  <nav>
-    <ul class="nav-list">
-      <!-- Show "New Post" only if logged in and not on login/signup -->
-      <li *ngIf="isAuthenticatedAndNotAuthPage">
-        <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Post</a>
-      </li>
-
-      <!-- Show login/signup buttons only if not logged in and on login/signup page -->
-      <li *ngIf="showAuthLinks">
-        <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
-      </li>
-      <li *ngIf="showAuthLinks">
-        <a mat-button routerLink="/signup" routerLinkActive="mat-accent">Signup</a>
-      </li>
-
-      <!-- Show logout only if logged in and not on login/signup -->
-      <li *ngIf="isAuthenticatedAndNotAuthPage">
-        <button mat-button (click)="onLogout()">Logout</button>
-      </li>
-    </ul>
-  </nav>
+  <div class="spacer"></div>
+  <button mat-button *ngIf="!userIsAuthenticated" routerLink="/login">Login</button>
+  <button mat-button *ngIf="!userIsAuthenticated" routerLink="/signup">Sign Up</button>
+  <button mat-button *ngIf="userIsAuthenticated" routerLink="/create">New Post</button>
+  <button mat-button *ngIf="userIsAuthenticated" (click)="onLogout()">Logout</button>
 </mat-toolbar>
